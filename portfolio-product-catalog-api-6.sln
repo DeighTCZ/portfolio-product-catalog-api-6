@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "product-catalog-data-access
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "product-catalog-data-model", "product-catalog-data-model\product-catalog-data-model.csproj", "{59BCDBD3-13E1-4CC3-974E-8C1DD39B822D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "product-catalog-db", "product-catalog-db\product-catalog-db.sqlproj", "{322DA72B-3CE1-439F-A036-C159F0C5D89D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{59BCDBD3-13E1-4CC3-974E-8C1DD39B822D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59BCDBD3-13E1-4CC3-974E-8C1DD39B822D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59BCDBD3-13E1-4CC3-974E-8C1DD39B822D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322DA72B-3CE1-439F-A036-C159F0C5D89D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
