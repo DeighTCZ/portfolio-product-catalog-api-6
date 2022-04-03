@@ -57,5 +57,25 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="PostDeployScripts" />
+    <Folder Include="Schemas" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\dbo.product.sql" />
+    <Build Include="Tables\security.user.sql" />
+    <None Include="PostDeployScripts\postdeploy.2.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schemas\schema.security.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="PostDeployScripts\postdeploy.1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="product-catalog-db.publish.xml" />
   </ItemGroup>
 </Project>
