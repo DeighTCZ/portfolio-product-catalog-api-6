@@ -1,4 +1,5 @@
-﻿using product_catalog_data_access.EfModels;
+﻿using AutoMapper;
+using product_catalog_data_access.EfModels;
 using product_catalog_data_access.Interfaces;
 using product_catalog_data_model.Exceptions;
 using Product = product_catalog_data_model.Model.Product;
@@ -10,50 +11,32 @@ namespace product_catalog_data_access.Dao.EF;
 /// </summary>
 public class EfProductDao : IProductDao
 {
-    //TODO automapper
-
     private readonly ProductCatalogDbContext _context;
 
-    public EfProductDao(ProductCatalogDbContext context)
+    private readonly IMapper _mapper;
+
+    public EfProductDao(IMapper mapper, ProductCatalogDbContext context)
     {
+        _mapper = mapper;
         _context = context;
     }
 
+    
     public IEnumerable<Product> GetAll()
     {
-        return _context.Products.Select(x => new Product
-        {
-            Id = x.Id,
-            Name = x.ProductName,
-            Description = x.Description,
-            ImageUri = x.ImageUri,
-            Price = x.Price
-        });
+        return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(_context.Products);
     }
 
     public Product GetById(long id)
     {
         var product = GetByIdInternal(id);
 
-        return new Product
-        {
-            Id = product.Id,
-            Name = product.ProductName,
-            Description = product.Description,
-            Price = product.Price,
-            ImageUri = product.ImageUri
-        };
+        return _mapper.Map<Product>(product);
     }
 
     public void Create(Product item)
     {
-        var product = new EfModels.Product
-        {
-            ProductName = item.Name,
-            Description = item.Description,
-            ImageUri = item.ImageUri,
-            Price = item.Price
-        };
+        var product = _mapper.Map<EfModels.Product>(item);
 
         _context.Products.Add(product);
     }
