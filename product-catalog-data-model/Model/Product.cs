@@ -13,20 +13,20 @@ public class Product
     /// <summary>
     /// Název produktu
     /// </summary>
-    public string Name { get; init; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Popis produktu
     /// </summary>
-    public string Description { get; init; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Uri obrázku produktu
     /// </summary>
-    public string ImageUri { get; init; }
+    public string ImageUri { get; set; }
 
     /// <summary>
     /// Cena produktu
     /// </summary>
-    public decimal Price { get; init; }
+    public decimal Price { get; set; }
 }
