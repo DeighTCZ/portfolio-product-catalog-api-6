@@ -1,7 +1,7 @@
 ﻿using System.Net.Mime;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using product_catalog_data_access.Interfaces;
+using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
 
 namespace product_catalog_api.Controllers;
@@ -10,14 +10,14 @@ namespace product_catalog_api.Controllers;
 [Route("api/products")]
 public class ProductController : ControllerBase
 {
-    private readonly IProductDao _dao;
+    private readonly IProductService _productService;
 
     private readonly IMapper _mapper;
 
-    public ProductController(IMapper mapper, IProductDao dao)
+    public ProductController(IMapper mapper, IProductService productService)
     {
         _mapper = mapper;
-        _dao = dao;
+        _productService = productService;
     }
 
 
@@ -26,7 +26,7 @@ public class ProductController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     public IActionResult GetProducts()
     {
-        var items = _dao.GetAll();
+        var items = _productService.GetAllProducts();
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 
@@ -38,7 +38,7 @@ public class ProductController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     public IActionResult GetProduct(long id)
     {
-        var item = _dao.GetById(id);
+        var item = _productService.GetProductById(id);
 
         var result = _mapper.Map<product_catalog_data_model.Model.Product>(item);
 
@@ -52,7 +52,7 @@ public class ProductController : ControllerBase
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        _dao.Create(item);
+        _productService.CreateProduct(item);
 
         return Ok();
     }
@@ -64,7 +64,7 @@ public class ProductController : ControllerBase
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        _dao.Update(item);
+        _productService.UpdateProduct(item);
 
         return Ok();
     }
@@ -74,7 +74,7 @@ public class ProductController : ControllerBase
     [Consumes(MediaTypeNames.Application.Json)]
     public IActionResult Delete(long id)
     {
-        _dao.Delete(id);
+        _productService.DeleteProduct(id);
 
         return Ok();
     }
