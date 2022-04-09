@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\product-catalog-data-model\product-catalog-data-model.csproj" />
+    <ProjectReference Include="..\product-catalog-mock-data\product-catalog-mock-data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
