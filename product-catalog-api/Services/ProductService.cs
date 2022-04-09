@@ -20,9 +20,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public IEnumerable<Product> GetAllProducts()
+    public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var products = _productDao.GetAll();
+        var products = await _productDao.GetAll();
 
         // Bussiness logic here
 
@@ -30,9 +30,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public Product GetProductById(long id)
+    public async Task<Product> GetProductById(long id)
     {
-        var product = _productDao.GetById(id);
+        var product = await _productDao.GetById(id);
 
         // Bussiness logic here
 
@@ -40,26 +40,26 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public void CreateProduct(Product product)
+    public async Task CreateProduct(Product product)
     {
         // Bussiness logic here
 
-        _productDao.Create(product);
+        await _productDao.Create(product);
     }
 
     /// <inheritdoc />
-    public void UpdateProduct(Product product)
+    public async Task UpdateProduct(Product product)
     {
         // Bussiness logic here
 
-        _productDao.Update(product);
+        await _productDao.Update(product);
     }
 
     /// <inheritdoc />
-    public void DeleteProduct(long id)
+    public async Task DeleteProduct(long id)
     {
         // Bussiness logic here
 
-        _productDao.Delete(id);
+        await _productDao.Delete(id);
     }
 }

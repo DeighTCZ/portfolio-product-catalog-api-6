@@ -11,29 +11,29 @@ public interface IProductService
     /// Vrátí veškeré produkty
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Product> GetAllProducts();
+    public Task<IEnumerable<Product>> GetAllProducts();
 
     /// <summary>
     /// Vrátí produkt podle id
     /// </summary>
     /// <returns></returns>
-    public Product GetProductById(long id);
+    public Task<Product> GetProductById(long id);
 
     /// <summary>
     /// Vytvoří produkt
     /// </summary>
     /// <param name="product"></param>
-    public void CreateProduct(Product product);
+    public Task CreateProduct(Product product);
 
     /// <summary>
     /// Upraví produkt
     /// </summary>
     /// <param name="product"></param>
-    public void UpdateProduct(Product product);
+    public Task UpdateProduct(Product product);
 
     /// <summary>
     /// Smaže produkt
     /// </summary>
     /// <param name="id"></param>
-    public void DeleteProduct(long id);
+    public Task DeleteProduct(long id);
 }
