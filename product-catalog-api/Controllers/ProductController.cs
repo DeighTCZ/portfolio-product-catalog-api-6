@@ -24,9 +24,9 @@ public class ProductController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Produces(MediaTypeNames.Application.Json)]
-    public IActionResult GetProducts()
+    public async Task<IActionResult> GetProducts()
     {
-        var items = _productService.GetAllProducts();
+        var items = await _productService.GetAllProducts();
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 
@@ -36,9 +36,9 @@ public class ProductController : ControllerBase
     [HttpGet("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Produces(MediaTypeNames.Application.Json)]
-    public IActionResult GetProduct(long id)
+    public async Task<IActionResult> GetProduct(long id)
     {
-        var item = _productService.GetProductById(id);
+        var item = await _productService.GetProductById(id);
 
         var result = _mapper.Map<product_catalog_data_model.Model.Product>(item);
 
@@ -48,11 +48,11 @@ public class ProductController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Consumes(MediaTypeNames.Application.Json)]
-    public IActionResult Create([FromBody] Product product)
+    public async Task<IActionResult> Create([FromBody] Product product)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        _productService.CreateProduct(item);
+        await _productService.CreateProduct(item);
 
         return Ok();
     }
@@ -60,11 +60,11 @@ public class ProductController : ControllerBase
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Consumes(MediaTypeNames.Application.Json)]
-    public IActionResult Update([FromBody] Product product)
+    public async Task<IActionResult> Update([FromBody] Product product)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        _productService.UpdateProduct(item);
+        await _productService.UpdateProduct(item);
 
         return Ok();
     }
@@ -72,9 +72,9 @@ public class ProductController : ControllerBase
     [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Consumes(MediaTypeNames.Application.Json)]
-    public IActionResult Delete(long id)
+    public async Task<IActionResult> Delete(long id)
     {
-        _productService.DeleteProduct(id);
+        await _productService.DeleteProduct(id);
 
         return Ok();
     }

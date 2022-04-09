@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using product_catalog_data_access.EfModels;
 using product_catalog_data_access.Interfaces;
 using product_catalog_data_model.Exceptions;
@@ -21,48 +22,49 @@ public class EfProductDao : IProductDao
         _context = context;
     }
 
-    
-    public IEnumerable<Product> GetAll()
+
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(_context.Products);
+        var data = await _context.Products.ToListAsync();
+        return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(data);
     }
 
-    public Product GetById(long id)
+    public async Task<Product> GetById(long id)
     {
-        var product = GetByIdInternal(id);
+        var product = await GetByIdInternal(id);
 
         return _mapper.Map<Product>(product);
     }
 
-    public void Create(Product item)
+    public async Task Create(Product item)
     {
         var product = _mapper.Map<EfModels.Product>(item);
 
-        _context.Products.Add(product);
+        _context.Add(product);
     }
 
-    public void Update(Product item)
+    public async Task Update(Product item)
     {
-        var product = GetByIdInternal(item.Id);
+        var product = await GetByIdInternal(item.Id);
 
         product.ProductName = item.Name;
         product.Description = item.Description;
         product.ImageUri = item.ImageUri;
         product.Price = item.Price;
 
-        _context.Products.Update(product);
+        _context.Update(product);
     }
 
-    public void Delete(long id)
+    public async Task Delete(long id)
     {
-        var product = GetByIdInternal(id);
+        var product = await GetByIdInternal(id);
 
         _context.Remove(product);
     }
 
-    private EfModels.Product GetByIdInternal(long id)
+    private async Task<EfModels.Product> GetByIdInternal(long id)
     {
-        var item = _context.Products.Find(id);
+        var item = await _context.Products.FindAsync(id);
 
         if (item == null)
         {

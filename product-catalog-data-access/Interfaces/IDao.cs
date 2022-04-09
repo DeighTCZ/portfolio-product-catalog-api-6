@@ -10,30 +10,30 @@ public interface IDao<T>
     /// Vrátí kompletní seznam entit
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<T> GetAll();
+    public Task<IEnumerable<T>> GetAll();
 
     /// <summary>
     /// Vrátí entitu podle id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public T GetById(long id);
+    public Task<T> GetById(long id);
 
     /// <summary>
     /// Vytvoří entitu
     /// </summary>
     /// <param name="item"></param>
-    public void Create(T item);
+    public Task Create(T item);
 
     /// <summary>
     /// Upraví entitu
     /// </summary>
     /// <param name="item"></param>
-    public void Update(T item);
+    public Task Update(T item);
 
     /// <summary>
     /// Smaže entitu
     /// </summary>
     /// <param name="id"></param>
-    public void Delete(long id);
+    public Task Delete(long id);
 }

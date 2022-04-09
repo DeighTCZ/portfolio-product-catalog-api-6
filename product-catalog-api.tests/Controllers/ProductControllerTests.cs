@@ -19,11 +19,11 @@ public class ProductControllerTests
         var productService = new Mock<IProductService>();
         var mapper = new Mock<IMapper>();
         var mockDataProvider = new ProductsMockData();
-        productService.Setup(_ => _.GetAllProducts()).Returns(mockDataProvider.GetAll());
+        productService.Setup(_ => _.GetAllProducts()).ReturnsAsync(mockDataProvider.GetAll());
         var sut = new ProductController(mapper.Object, productService.Object);
 
         // Act
-        var result = (OkObjectResult)sut.GetProducts();
+        var result = (OkObjectResult)await sut.GetProducts();
 
         // Assert
         result.StatusCode.Should().Be(200);

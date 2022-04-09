@@ -17,14 +17,16 @@ public class MockProductDao : IProductDao
         _products = new ProductMockDataProvider().GetAll().ToList();
     }
 
-    public IEnumerable<Product> GetAll()
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        return _products;
+        return await Task.FromResult(_products);
     }
 
-    public Product GetById(long id)
+    public async Task<Product> GetById(long id)
     {
-        var product = GetAll().FirstOrDefault(x => x.Id == id);
+        var products = await GetAll();
+
+        var product = products.FirstOrDefault(x => x.Id == id);
 
         if (product == null)
         {
@@ -34,14 +36,14 @@ public class MockProductDao : IProductDao
         return product;
     }
 
-    public void Create(Product item)
+    public async Task Create(Product item)
     {
         _products.Add(item);
     }
 
-    public void Update(Product item)
+    public async Task Update(Product item)
     {
-        var product = GetById(item.Id);
+        var product = await GetById(item.Id);
 
         if (product == null)
         {
@@ -54,9 +56,9 @@ public class MockProductDao : IProductDao
         product.ImageUri = item.ImageUri;
     }
 
-    public void Delete(long id)
+    public async Task Delete(long id)
     {
-        var product = GetById(id);
+        var product = await GetById(id);
 
         if (product == null)
         {
