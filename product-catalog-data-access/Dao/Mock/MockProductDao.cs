@@ -1,6 +1,7 @@
 ﻿using product_catalog_data_access.Interfaces;
 using product_catalog_data_model.Exceptions;
 using product_catalog_data_model.Model;
+using product_catalog_mock_data;
 
 namespace product_catalog_data_access.Dao.Mock;
 
@@ -9,25 +10,12 @@ namespace product_catalog_data_access.Dao.Mock;
 /// </summary>
 public class MockProductDao : IProductDao
 {
-    private readonly List<Product> _products = new ()
+    private readonly List<Product> _products;
+
+    public MockProductDao()
     {
-        new Product
-        {
-            Id = 1,
-            Name = "Product A",
-            Description = "Popis produktu A",
-            Price = 1458.99m,
-            ImageUri = "https://fakeuri.cz/produktA"
-        },
-        new Product
-        {
-            Id = 2,
-            Name = "Product B",
-            Description = "Popis produktu B",
-            Price = 145458.99m,
-            ImageUri = "https://fakeuri.cz/produktB"
-        }
-    };
+        _products = new ProductMockDataProvider().GetAll().ToList();
+    }
 
     public IEnumerable<Product> GetAll()
     {
@@ -36,7 +24,14 @@ public class MockProductDao : IProductDao
 
     public Product GetById(long id)
     {
-        return GetAll().FirstOrDefault(x => x.Id == id);
+        var product = GetAll().FirstOrDefault(x => x.Id == id);
+
+        if (product == null)
+        {
+            throw new ItemNotFoundException($"Produkt se zadaným id {id} nebyl nalezen.");
+        }
+
+        return product;
     }
 
     public void Create(Product item)
