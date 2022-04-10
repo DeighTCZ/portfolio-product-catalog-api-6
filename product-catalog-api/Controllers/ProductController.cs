@@ -72,7 +72,6 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] Product product)
     {

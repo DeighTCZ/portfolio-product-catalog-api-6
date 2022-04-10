@@ -40,6 +40,14 @@ public interface IProductService
     public Task UpdateProduct(Product product);
 
     /// <summary>
+    /// Upraví popis produktu
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="description"></param>
+    /// <returns></returns>
+    public Task UpdateProductDescription(long id, string description);
+
+    /// <summary>
     /// Smaže produkt
     /// </summary>
     /// <param name="id"></param>

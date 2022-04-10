@@ -79,6 +79,19 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
+    public async Task UpdateDescription(long id, string description)
+    {
+        var product = await GetById(id);
+
+        if (product == null)
+        {
+            throw new ItemNotFoundException($"Produkt se zadaným id {id} nebyl nalezen.");
+        }
+
+        product.Description = description;
+    }
+
+    /// <inheritdoc />
     public async Task Delete(long id)
     {
         var product = await GetById(id);

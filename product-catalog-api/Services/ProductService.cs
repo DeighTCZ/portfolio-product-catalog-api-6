@@ -66,6 +66,14 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
+    public async Task UpdateProductDescription(long id, string description)
+    {
+        // Bussiness logic here
+
+        await _productDao.UpdateDescription(id, description);
+    }
+
+    /// <inheritdoc />
     public async Task DeleteProduct(long id)
     {
         // Bussiness logic here

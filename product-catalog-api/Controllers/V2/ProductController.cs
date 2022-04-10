@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Filters;
+using product_catalog_api.Model.Dto;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
 
@@ -57,7 +58,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProduct(long id)
     {
@@ -75,7 +76,6 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
@@ -93,7 +93,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Update([FromBody] Product product)
     {
@@ -105,13 +105,29 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
+    /// Upraví popis produktu
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpPut("updatedescription")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [Consumes(MediaTypeNames.Application.Json)]
+    public async Task<IActionResult> UpdateDescription([FromBody] UpdateProductDescriptionDto dto)
+    {
+        await _productService.UpdateProductDescription(dto.Id, dto.Description);
+
+        return Ok();
+    }
+
+    /// <summary>
     /// Smaže produkt
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Delete(long id)
     {

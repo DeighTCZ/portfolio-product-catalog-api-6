@@ -63,7 +63,7 @@ public class EfProductDao : IProductDao
 
         _context.Add(product);
 
-        await Task.FromResult(0);
+        await _context.SaveChangesAsync();
     }
 
     /// <inheritdoc />
@@ -77,6 +77,20 @@ public class EfProductDao : IProductDao
         product.Price = item.Price;
 
         _context.Update(product);
+
+        await _context.SaveChangesAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task UpdateDescription(long id, string description)
+    {
+        var product = await GetByIdInternal(id);
+
+        product.Description = description;
+
+        _context.Update(product);
+
+        await _context.SaveChangesAsync();
     }
 
     /// <inheritdoc />
@@ -85,6 +99,8 @@ public class EfProductDao : IProductDao
         var product = await GetByIdInternal(id);
 
         _context.Remove(product);
+
+        await _context.SaveChangesAsync();
     }
 
     private async Task<EfModels.Product> GetByIdInternal(long id)

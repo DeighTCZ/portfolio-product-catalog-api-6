@@ -1,13 +1,16 @@
 ﻿namespace product_catalog_api;
 
 /// <summary>
-/// Konstanty pro api
+/// Konstanty
 /// </summary>
-public class ConstantsStore
+public static class ConstantsStore
 {
-    internal class ApiConstants
+    /// <summary>
+    /// Konstanty pro api
+    /// </summary>
+    internal static class ApiConstants
     {
         internal const int DefaultPage = 1;
-        internal const int DefaultItemCount = 20;
+        internal const int DefaultItemCount = 10;
     }
 }
