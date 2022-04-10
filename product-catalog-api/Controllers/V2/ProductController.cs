@@ -38,7 +38,7 @@ public class ProductController : ControllerBase
     /// <param name="count">Počet prvků na stránku</param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProducts([FromQuery] int page = ConstantsStore.ApiConstants.DefaultPage,
@@ -57,7 +57,7 @@ public class ProductController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id:long}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProduct(long id)
