@@ -24,6 +24,7 @@ public static class Startup
             options.UseSqlServer(builder.Configuration.GetConnectionString("EfProductCatalogContext")));
 
         builder.Services.AddTransient<IProductDao, EfProductDao>();
+        builder.Services.AddTransient<IUserDao, EfUserDao>();
     }
 
     /// <summary>
@@ -32,7 +33,8 @@ public static class Startup
     /// <param name="builder"></param>
     public static void AddMockImplementation(this WebApplicationBuilder builder)
     {
-        builder.Services.AddTransient<IProductDao, MockProductDao>();
+        builder.Services.AddSingleton<IProductDao, MockProductDao>();
+        builder.Services.AddSingleton<IUserDao, MockUserDao>();
     }
 
     /// <summary>

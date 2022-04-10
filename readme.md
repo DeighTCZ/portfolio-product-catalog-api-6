@@ -18,11 +18,12 @@ Výchozí data byla vygenerována z <https://www.mockaroo.com/>
 
 #### postdeploy.1 Naplnění produktů [^1] [^2]
 
-``` curl
+``` shell
 curl "https://api.mockaroo.com/api/48711c50?count=1000&key=26416e60" > "portfolio-catalog-init-data.sql"
 ```
 
 [^1] Curl script je vázaný na můj účet nepůjde ho pustit komukoliv.
+
 [^2] Vygenerovaný script byl pročištěn tak, aby nezpůsoboval porušení unikátnosti slupce product_name
 
 ## product-catalog-api
@@ -32,6 +33,9 @@ Tento projekt je spustitelná aplikace ve formě api pro přístup k produktům.
 ### Spuštění api
 
 Projekt lze spustit v IDE nebo jako vypublikovanou verzi pod IIS. Popřípadě při drobné úprave jako aplikaci, nebo službu běžící pod Kestrel serverem.
+Kontrollery pro produkty jsou schované za jwt autorizací. 
+Je tedy nutno nejdříve zavolat *authenticate* metodu na *login* kontrolleru se správnými údaji (2 uživatelé jsou vloženi v postdeply scriptu do db),
+a poté je možno volat produktové kontrollery s daným tokenem v autorizační hlavičce. Toto všechno je viditelné i ve swaggeru.
 
 ## product-catalog-data-access
 
