@@ -7,7 +7,7 @@ namespace product_catalog_mock_data;
 /// </summary>
 public class ProductMockDataProvider
 {
-    private readonly List<Product> _products = new ()
+    private readonly List<Product> _products = new()
     {
         new Product
         {
@@ -31,7 +31,7 @@ public class ProductMockDataProvider
     /// Vrátí všechny mock produkty
     /// </summary>
     /// <returns></returns>
-    public  IEnumerable<Product> GetAll()
+    public IEnumerable<Product> GetAll()
     {
         return _products;
     }
