@@ -30,6 +30,16 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<Product>> GetProductsPaged(int page, int count)
+    {
+        var products = await _productDao.GetAllPaged(page, count);
+
+        // Bussiness logic here
+
+        return products;
+    }
+
+    /// <inheritdoc />
     public async Task<Product> GetProductById(long id)
     {
         var product = await _productDao.GetById(id);

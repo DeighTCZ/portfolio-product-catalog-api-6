@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using product_catalog_api.Filters;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
 
@@ -30,15 +31,19 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Vrací produkty
+    /// Vrací seznam produktů
     /// </summary>
+    /// <param name="page">Stránka k zobrazení</param>
+    /// <param name="count">Počet prvků na stránku</param>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts([FromQuery] int page = ConstantsStore.ApiConstants.DefaultPage,
+        [FromQuery] int count = ConstantsStore.ApiConstants.DefaultItemCount)
     {
-        var items = await _productService.GetAllProducts();
+        var items = await _productService.GetProductsPaged(page, count);
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 
@@ -52,6 +57,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProduct(long id)
     {
@@ -69,6 +75,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
@@ -86,6 +93,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Update([FromBody] Product product)
     {
@@ -103,6 +111,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Delete(long id)
     {

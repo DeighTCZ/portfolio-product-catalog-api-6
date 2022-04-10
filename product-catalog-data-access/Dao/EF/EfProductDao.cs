@@ -35,6 +35,20 @@ public class EfProductDao : IProductDao
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count)
+    {
+        var productsCount = await _context.Products.CountAsync();
+        var skip = Utility.SkipForPage(page, count);
+        if (skip > productsCount)
+        {
+            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
+        }
+
+        var data = await _context.Products.Skip(skip).Take(count).ToListAsync();
+        return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(data);
+    }
+
+    /// <inheritdoc />
     public async Task<Product> GetById(long id)
     {
         var product = await GetByIdInternal(id);

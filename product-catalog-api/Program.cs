@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using product_catalog_api;
+using product_catalog_api.Filters.ExceptionFilters;
 using product_catalog_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<PageNotValidExceptionFilter>();
+    options.Filters.Add<ItemNotFoundExceptionFilter>();
+});
 
 builder.Services.AddTransient<IProductService, ProductService>();
 
