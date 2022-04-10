@@ -30,15 +30,18 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Vrací produkty
+    /// Vrací seznam produktů
     /// </summary>
+    /// <param name="page">Stránka k zobrazení</param>
+    /// <param name="count">Počet prvků na stránku</param>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts([FromQuery] int page = ConstantsStore.ApiConstants.DefaultPage,
+        [FromQuery] int count = ConstantsStore.ApiConstants.DefaultItemCount)
     {
-        var items = await _productService.GetAllProducts();
+        var items = await _productService.GetProductsPaged(page, count);
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 

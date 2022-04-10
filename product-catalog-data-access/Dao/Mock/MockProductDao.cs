@@ -27,6 +27,19 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count)
+    {
+        var productsCount = _products.Count;
+        var skip = Utility.SkipForPage(page, count);
+        if (skip > productsCount)
+        {
+            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
+        }
+
+        return await Task.FromResult(_products.Skip(skip).Take(count));
+    }
+
+    /// <inheritdoc />
     public async Task<Product> GetById(long id)
     {
         var products = await GetAll();

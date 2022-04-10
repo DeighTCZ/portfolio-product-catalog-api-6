@@ -13,6 +13,12 @@ public interface IDao<T>
     public Task<IEnumerable<T>> GetAll();
 
     /// <summary>
+    /// Vrátí kompletní seznam entit
+    /// </summary>
+    /// <returns></returns>
+    public Task<IEnumerable<T>> GetAllPaged(int page, int count);
+
+    /// <summary>
     /// Vrátí entitu podle id
     /// </summary>
     /// <param name="id"></param>

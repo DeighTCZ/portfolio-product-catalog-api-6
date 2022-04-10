@@ -14,6 +14,14 @@ public interface IProductService
     public Task<IEnumerable<Product>> GetAllProducts();
 
     /// <summary>
+    /// Vrátí produkty stránkovaně
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public Task<IEnumerable<Product>> GetProductsPaged(int page, int count);
+
+    /// <summary>
     /// Vrátí produkt podle id
     /// </summary>
     /// <returns></returns>
