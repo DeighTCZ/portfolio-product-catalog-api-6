@@ -7,5 +7,10 @@ namespace product_catalog_data_access.Interfaces;
 /// </summary>
 public interface IUserDao : IDao<User>
 {
-
+    /// <summary>
+    /// Vrátí uživatele podle loginu
+    /// </summary>
+    /// <param name="login"></param>
+    /// <returns></returns>
+    public Task<User> GetByLogin(string login);
 }

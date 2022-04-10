@@ -64,7 +64,7 @@
   <ItemGroup>
     <Build Include="Tables\dbo.product.sql" />
     <Build Include="Tables\security.user.sql" />
-    <None Include="PostDeployScripts\postdeploy.2.sql" />
+    <PostDeploy Include="PostDeployScripts\postdeploy.2.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schemas\schema.security.sql" />

@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Filters;
 using product_catalog_api.Model.Dto;
@@ -14,6 +15,8 @@ namespace product_catalog_api.Controllers.V2;
 [ApiController]
 [Route("api/v{version:apiVersion}/products")]
 [ApiVersion("2.0")]
+[Authorize]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
