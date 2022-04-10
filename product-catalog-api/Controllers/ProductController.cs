@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Filters;
+using product_catalog_api.Model.Dto;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
 
@@ -35,7 +36,7 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProducts()
@@ -53,7 +54,7 @@ public class ProductController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id:long}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProduct(long id)
@@ -72,7 +73,6 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
@@ -97,6 +97,22 @@ public class ProductController : ControllerBase
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
         await _productService.UpdateProduct(item);
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Upraví popis produktu
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpPut("updatedescription")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [Consumes(MediaTypeNames.Application.Json)]
+    public async Task<IActionResult> UpdateDescription([FromBody] UpdateProductDescriptionDto dto)
+    {
+        await _productService.UpdateProductDescription(dto.Id, dto.Description);
 
         return Ok();
     }
