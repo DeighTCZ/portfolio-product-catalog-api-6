@@ -37,7 +37,6 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetProducts()
     {
