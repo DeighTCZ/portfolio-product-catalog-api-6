@@ -2,8 +2,14 @@
 
 namespace product_catalog_data_access.EfModels.Automapper;
 
+/// <summary>
+/// Mapovací profil mezi entitou a objektem produktu
+/// </summary>
 public class ProductMapperProfile : Profile
 {
+    /// <summary>
+    /// ctor
+    /// </summary>
     public ProductMapperProfile()
     {
         CreateMap<product_catalog_data_model.Model.Product, Product>()

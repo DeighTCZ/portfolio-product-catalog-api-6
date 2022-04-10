@@ -8,6 +8,9 @@ namespace product_catalog_data_model.Automapper;
 /// </summary>
 public class DtoMapperProfile : Profile
 {
+    /// <summary>
+    /// ctor
+    /// </summary>
     public DtoMapperProfile()
     {
         CreateMap<Model.Product, Product>();

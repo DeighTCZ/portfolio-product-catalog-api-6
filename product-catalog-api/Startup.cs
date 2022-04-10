@@ -9,8 +9,15 @@ using product_catalog_data_model.Automapper;
 
 namespace product_catalog_api;
 
+/// <summary>
+/// Konfigurační objekt
+/// </summary>
 public static class Startup
 {
+    /// <summary>
+    /// Nastaví Entity Framework jako metodu pro přístup k datům
+    /// </summary>
+    /// <param name="builder"></param>
     public static void AddEfImplementation(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<ProductCatalogDbContext>(options =>
@@ -19,11 +26,19 @@ public static class Startup
         builder.Services.AddTransient<IProductDao, EfProductDao>();
     }
 
+    /// <summary>
+    /// NAstaví Mock jako metodu pro přístup k datům
+    /// </summary>
+    /// <param name="builder"></param>
     public static void AddMockImplementation(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IProductDao, MockProductDao>();
     }
 
+    /// <summary>
+    /// Provede nastavení automapperu
+    /// </summary>
+    /// <param name="builder"></param>
     public static void CreateAutomapperConfig(this WebApplicationBuilder builder)
     {
         var mapperConfig = new MapperConfiguration(mc =>

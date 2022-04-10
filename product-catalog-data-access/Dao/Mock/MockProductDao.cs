@@ -12,16 +12,21 @@ public class MockProductDao : IProductDao
 {
     private readonly List<Product> _products;
 
+    /// <summary>
+    /// ctor
+    /// </summary>
     public MockProductDao()
     {
         _products = new ProductMockDataProvider().GetAll().ToList();
     }
 
+    /// <inheritdoc />
     public async Task<IEnumerable<Product>> GetAll()
     {
         return await Task.FromResult(_products);
     }
 
+    /// <inheritdoc />
     public async Task<Product> GetById(long id)
     {
         var products = await GetAll();
@@ -36,11 +41,15 @@ public class MockProductDao : IProductDao
         return product;
     }
 
+    /// <inheritdoc />
     public async Task Create(Product item)
     {
         _products.Add(item);
+
+        await Task.FromResult(0);
     }
 
+    /// <inheritdoc />
     public async Task Update(Product item)
     {
         var product = await GetById(item.Id);
@@ -56,6 +65,7 @@ public class MockProductDao : IProductDao
         product.ImageUri = item.ImageUri;
     }
 
+    /// <inheritdoc />
     public async Task Delete(long id)
     {
         var product = await GetById(id);
