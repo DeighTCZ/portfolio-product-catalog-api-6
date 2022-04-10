@@ -70,9 +70,6 @@
     <Build Include="Schemas\schema.security.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.md" />
-  </ItemGroup>
-  <ItemGroup>
     <PostDeploy Include="PostDeployScripts\postdeploy.1.sql" />
   </ItemGroup>
   <ItemGroup>
