@@ -16,19 +16,25 @@ public class EfProductDao : IProductDao
 
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="mapper"></param>
+    /// <param name="context"></param>
     public EfProductDao(IMapper mapper, ProductCatalogDbContext context)
     {
         _mapper = mapper;
         _context = context;
     }
 
-
+    /// <inheritdoc />
     public async Task<IEnumerable<Product>> GetAll()
     {
         var data = await _context.Products.ToListAsync();
         return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(data);
     }
 
+    /// <inheritdoc />
     public async Task<Product> GetById(long id)
     {
         var product = await GetByIdInternal(id);
@@ -36,13 +42,17 @@ public class EfProductDao : IProductDao
         return _mapper.Map<Product>(product);
     }
 
+    /// <inheritdoc />
     public async Task Create(Product item)
     {
         var product = _mapper.Map<EfModels.Product>(item);
 
         _context.Add(product);
+
+        await Task.FromResult(0);
     }
 
+    /// <inheritdoc />
     public async Task Update(Product item)
     {
         var product = await GetByIdInternal(item.Id);
@@ -55,6 +65,7 @@ public class EfProductDao : IProductDao
         _context.Update(product);
     }
 
+    /// <inheritdoc />
     public async Task Delete(long id)
     {
         var product = await GetByIdInternal(id);

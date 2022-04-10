@@ -2,6 +2,9 @@
 
 namespace product_catalog_mock_data;
 
+/// <summary>
+/// Provider pro unifikovaná mock data
+/// </summary>
 public class ProductMockDataProvider
 {
     private readonly List<Product> _products = new ()
@@ -24,6 +27,10 @@ public class ProductMockDataProvider
         }
     };
 
+    /// <summary>
+    /// Vrátí všechny mock produkty
+    /// </summary>
+    /// <returns></returns>
     public  IEnumerable<Product> GetAll()
     {
         return _products;

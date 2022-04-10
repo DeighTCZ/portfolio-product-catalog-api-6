@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
 
-namespace product_catalog_api.Controllers;
+namespace product_catalog_api.Controllers.V2;
 
 /// <summary>
-/// Jednoduchá verze kontrolleru pro práci s produkty
+/// Novější verze kontrolleru pro práci s produkty
 /// </summary>
 [ApiController]
 [Route("api/v{version:apiVersion}/products")]
-[ApiVersion("1.0", Deprecated = true)]
+[ApiVersion("2.0")]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Vrátí seznam produktů
+    /// Vrací produkty
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -63,7 +63,7 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Vytváří produkt
+    /// Vytvoří produkt
     /// </summary>
     /// <param name="product"></param>
     /// <returns></returns>
@@ -80,7 +80,7 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Upravuje produkt
+    /// Upraví produkt
     /// </summary>
     /// <param name="product"></param>
     /// <returns></returns>
@@ -97,7 +97,7 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Maže produkt
+    /// Smaže produkt
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

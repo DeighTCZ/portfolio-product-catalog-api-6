@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable CS1591
 namespace product_catalog_data_access.EfModels;
 
 /// <summary>

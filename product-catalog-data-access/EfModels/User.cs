@@ -1,4 +1,5 @@
-﻿namespace product_catalog_data_access.EfModels;
+﻿#pragma warning disable CS1591
+namespace product_catalog_data_access.EfModels;
 
 public partial class User
 {
