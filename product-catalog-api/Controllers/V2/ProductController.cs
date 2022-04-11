@@ -6,6 +6,7 @@ using product_catalog_api.Filters;
 using product_catalog_api.Model.Dto;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto;
+using product_catalog_data_model.Exceptions;
 
 namespace product_catalog_api.Controllers.V2;
 
@@ -47,6 +48,16 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetProducts([FromQuery] int page = ConstantsStore.ApiConstants.DefaultPage,
         [FromQuery] int count = ConstantsStore.ApiConstants.DefaultItemCount)
     {
+        if (page < 1)
+        {
+            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
+        }
+
+        if (count < 1)
+        {
+            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
+        }
+
         var items = await _productService.GetProductsPaged(page, count);
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
