@@ -55,11 +55,15 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Create(Product item)
+    public async Task<long> Create(Product item)
     {
+        //hack tady nemám identity
+        var lastId = _products.Last().Id;
+        item.Id = lastId + 1;
+
         _products.Add(item);
 
-        await Task.FromResult(0);
+        return await Task.FromResult(0);
     }
 
     /// <inheritdoc />
