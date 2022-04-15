@@ -31,7 +31,7 @@ public interface IProductService
     /// Vytvoří produkt
     /// </summary>
     /// <param name="product"></param>
-    public Task CreateProduct(Product product);
+    public Task<long> CreateProduct(Product product);
 
     /// <summary>
     /// Upraví produkt

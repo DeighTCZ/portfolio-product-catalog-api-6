@@ -50,11 +50,11 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task CreateProduct(Product product)
+    public async Task<long> CreateProduct(Product product)
     {
         // Bussiness logic here
 
-        await _productDao.Create(product);
+        return await _productDao.Create(product);
     }
 
     /// <inheritdoc />

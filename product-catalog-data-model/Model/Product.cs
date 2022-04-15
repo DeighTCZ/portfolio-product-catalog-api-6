@@ -8,7 +8,7 @@ public class Product
     /// <summary>
     /// Id
     /// </summary>
-    public long Id { get; init; }
+    public long Id { get; set; }
 
     /// <summary>
     /// Název produktu

@@ -56,13 +56,15 @@ public class EfUserDao : IUserDao
     }
 
     /// <inheritdoc />
-    public async Task Create(User item)
+    public async Task<long> Create(User item)
     {
         var user = _mapper.Map<EfModels.User>(item);
 
-        _context.Add((object)user);
+        _context.Add(user);
 
         await _context.SaveChangesAsync();
+
+        return user.Id;
     }
 
     /// <inheritdoc />

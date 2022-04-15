@@ -1,18 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace product_catalog_data_model.Dto;
+namespace product_catalog_data_model.Dto.Product;
 
 /// <summary>
-/// Model pro produkt pro potřeby přenosu
+/// Dto pro vytvoření produktu
 /// </summary>
-public class Product
+public class CreateProductDto
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    [JsonProperty("id")]
-    public long Id { get; init; }
-
     /// <summary>
     /// Název produktu
     /// </summary>

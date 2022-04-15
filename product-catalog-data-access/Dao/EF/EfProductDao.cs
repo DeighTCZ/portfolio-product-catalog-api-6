@@ -57,13 +57,15 @@ public class EfProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Create(Product item)
+    public async Task<long> Create(Product item)
     {
         var product = _mapper.Map<EfModels.Product>(item);
 
         _context.Add(product);
 
         await _context.SaveChangesAsync();
+
+        return product.Id;
     }
 
     /// <inheritdoc />

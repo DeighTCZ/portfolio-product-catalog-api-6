@@ -29,7 +29,7 @@ public interface IDao<T>
     /// Vytvoří entitu
     /// </summary>
     /// <param name="item"></param>
-    public Task Create(T item);
+    public Task<long> Create(T item);
 
     /// <summary>
     /// Upraví entitu

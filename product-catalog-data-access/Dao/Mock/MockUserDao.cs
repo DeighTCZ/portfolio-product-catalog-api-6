@@ -27,7 +27,7 @@ public class MockUserDao : IUserDao
     }
 
     /// <inheritdoc />
-    public Task Create(User item)
+    public Task<long> Create(User item)
     {
         throw new NotImplementedException();
     }
