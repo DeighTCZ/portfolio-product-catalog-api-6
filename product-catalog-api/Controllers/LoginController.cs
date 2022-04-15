@@ -11,7 +11,7 @@ namespace product_catalog_api.Controllers;
 /// Kontroller pro přihlašování
 /// </summary>
 [ApiController]
-[Route("api/v{version:apiVersion}/login")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0", Deprecated = true)]
 [ApiVersion("2.0")]
 public class LoginController : ControllerBase

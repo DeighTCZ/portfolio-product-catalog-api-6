@@ -14,7 +14,7 @@ namespace product_catalog_api.Controllers.V2;
 /// Novější verze kontrolleru pro práci s produkty
 /// </summary>
 [ApiController]
-[Route("api/v{version:apiVersion}/products")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("2.0")]
 [Authorize]
 [ProducesResponseType(StatusCodes.Status401Unauthorized)]
