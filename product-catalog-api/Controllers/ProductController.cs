@@ -13,7 +13,7 @@ namespace product_catalog_api.Controllers;
 /// Jednoduchá verze kontrolleru pro práci s produkty
 /// </summary>
 [ApiController]
-[Route("api/v{version:apiVersion}/products")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0", Deprecated = true)]
 [Authorize]
 [ProducesResponseType(StatusCodes.Status401Unauthorized)]
