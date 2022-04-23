@@ -36,8 +36,9 @@ public interface IProductService
     /// <summary>
     /// Upraví produkt
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="product"></param>
-    public Task UpdateProduct(Product product);
+    public Task UpdateProduct(long id, Product product);
 
     /// <summary>
     /// Upraví popis produktu

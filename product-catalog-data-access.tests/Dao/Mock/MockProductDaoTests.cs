@@ -142,7 +142,7 @@ public class MockProductDaoTests
 
         product.Description = "TEST DESCRIPTION";
 
-        await mockProductDao.Update(product);
+        await mockProductDao.Update(id, product);
 
         var product2 = await mockProductDao.GetById(id);
 

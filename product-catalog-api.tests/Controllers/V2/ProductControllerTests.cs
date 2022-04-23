@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using product_catalog_api.Controllers.V2;
+using product_catalog_api.Model.Dto;
 using product_catalog_api.Services;
 using product_catalog_data_access.Dao.Mock;
 using product_catalog_data_model.Exceptions;
@@ -23,7 +24,7 @@ public class ProductControllerTests
         var sut = new ProductController(mapper.Object, productService);
 
         // Act
-        var result = (OkObjectResult)await sut.GetProducts();
+        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto());
 
         // Assert
         result.StatusCode.Should().Be(200);
@@ -39,7 +40,7 @@ public class ProductControllerTests
         var sut = new ProductController(mapper.Object, productService);
 
         // Act
-        var result = (OkObjectResult)await sut.GetProducts(1, 10);
+        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto(1, 10));
 
         // Assert
         result.StatusCode.Should().Be(200);
@@ -55,7 +56,7 @@ public class ProductControllerTests
         var sut = new ProductController(mapper.Object, productService);
 
         // Act
-        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => sut.GetProducts(100, 10));
+        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => sut.GetProducts(new PaginationDto(100, 10)));
 
         //Assert
         ex.Should().BeOfType<PageNotValidException>();

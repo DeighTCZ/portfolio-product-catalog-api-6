@@ -33,7 +33,7 @@ public class MockUserDao : IUserDao
     }
 
     /// <inheritdoc />
-    public Task Update(User item)
+    public Task Update(long id, User item)
     {
         throw new NotImplementedException();
     }

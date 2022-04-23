@@ -1,0 +1,4 @@
+TODO - Co dodělat na portfoliovém projektu
+
+1) lokalizace
+2) logování

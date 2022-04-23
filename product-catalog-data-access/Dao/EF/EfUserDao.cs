@@ -68,9 +68,9 @@ public class EfUserDao : IUserDao
     }
 
     /// <inheritdoc />
-    public async Task Update(User item)
+    public async Task Update(long id, User item)
     {
-        var user = await GetByIdInternal(item.Id);
+        var user = await GetByIdInternal(id);
 
         user.Password = item.Password;
 

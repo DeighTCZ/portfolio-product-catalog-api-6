@@ -39,6 +39,7 @@ public class LoginController : ControllerBase
     [HttpPost("authenticate")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserTokenDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> AuthenticateUser(JwtLoginRequest request)
     {
         var user = await _userDao.GetByLogin(request.Username);

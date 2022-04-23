@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Filters;
 using product_catalog_api.Model.Dto;
+using product_catalog_api.Model.Dto.Product;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto.Product;
-using product_catalog_data_model.Exceptions;
 
 namespace product_catalog_api.Controllers.V2;
 
@@ -38,27 +38,16 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Vrací seznam produktů
     /// </summary>
-    /// <param name="page">Stránka k zobrazení</param>
-    /// <param name="count">Počet prvků na stránku</param>
+    /// <param name="pagination"></param>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> GetProducts([FromQuery] int page = ConstantsStore.ApiConstants.DefaultPage,
-        [FromQuery] int count = ConstantsStore.ApiConstants.DefaultItemCount)
+    public async Task<IActionResult> GetProducts([FromQuery] PaginationDto pagination)
     {
-        if (page < 1)
-        {
-            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
-        }
-
-        if (count < 1)
-        {
-            throw new PageNotValidException($"Zadaná stránka {page} není validní.");
-        }
-
-        var items = await _productService.GetProductsPaged(page, count);
+        var items = await _productService.GetProductsPaged(pagination.Page, pagination.Count);
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 
@@ -90,6 +79,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] CreateProductDto product)
     {
@@ -101,19 +91,21 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// Upraví produkt
+    /// Upravuje produkt
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="product"></param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPut("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> Update([FromBody] Product product)
+    public async Task<IActionResult> Update(long id, [FromBody] UpdateProductDto product)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        await _productService.UpdateProduct(item);
+        await _productService.UpdateProduct(id, item);
 
         return NoContent();
     }
@@ -121,15 +113,17 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Upraví popis produktu
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [HttpPut("updatedescription")]
+    [HttpPatch("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> UpdateDescription([FromBody] UpdateProductDescriptionDto dto)
+    public async Task<IActionResult> UpdateDescription(long id, [FromBody] UpdateProductDescriptionDto dto)
     {
-        await _productService.UpdateProductDescription(dto.Id, dto.Description);
+        await _productService.UpdateProductDescription(id, dto.Description);
 
         return NoContent();
     }
