@@ -20,5 +20,10 @@ public class DtoMapperProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.Ignore());
         CreateMap<Model.Product, CreateProductDto>()
             .ForSourceMember(source => source.Id, opt => opt.DoNotValidate());
+
+        CreateMap<UpdateProductDto, Model.Product>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<Model.Product, UpdateProductDto>()
+            .ForSourceMember(source => source.Id, opt => opt.DoNotValidate());
     }
 }

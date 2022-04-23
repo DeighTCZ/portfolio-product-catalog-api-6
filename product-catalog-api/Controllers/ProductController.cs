@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using product_catalog_api.Filters;
-using product_catalog_api.Model.Dto;
+using product_catalog_api.Model.Dto.Product;
 using product_catalog_api.Services;
 using product_catalog_data_model.Dto.Product;
 
@@ -75,6 +75,7 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
@@ -88,17 +89,19 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Upravuje produkt
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="product"></param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPut("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> Update([FromBody] Product product)
+    public async Task<IActionResult> Update(long id, [FromBody] UpdateProductDto product)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        await _productService.UpdateProduct(item);
+        await _productService.UpdateProduct(id, item);
 
         return NoContent();
     }
@@ -106,15 +109,17 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Upraví popis produktu
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [HttpPut("updatedescription")]
+    [HttpPatch("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> UpdateDescription([FromBody] UpdateProductDescriptionDto dto)
+    public async Task<IActionResult> UpdateDescription(long id, [FromBody] UpdateProductDescriptionDto dto)
     {
-        await _productService.UpdateProductDescription(dto.Id, dto.Description);
+        await _productService.UpdateProductDescription(id, dto.Description);
 
         return NoContent();
     }

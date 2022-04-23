@@ -34,8 +34,9 @@ public interface IDao<T>
     /// <summary>
     /// Upraví entitu
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="item"></param>
-    public Task Update(T item);
+    public Task Update(long id, T item);
 
     /// <summary>
     /// Smaže entitu

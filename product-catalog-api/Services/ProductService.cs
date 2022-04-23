@@ -58,11 +58,11 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task UpdateProduct(Product product)
+    public async Task UpdateProduct(long id, Product product)
     {
         // Bussiness logic here
 
-        await _productDao.Update(product);
+        await _productDao.Update(id, product);
     }
 
     /// <inheritdoc />

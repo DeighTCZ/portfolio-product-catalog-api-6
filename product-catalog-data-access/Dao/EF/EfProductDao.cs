@@ -69,9 +69,9 @@ public class EfProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Update(Product item)
+    public async Task Update(long id, Product item)
     {
-        var product = await GetByIdInternal(item.Id);
+        var product = await GetByIdInternal(id);
 
         product.ProductName = item.Name;
         product.Description = item.Description;

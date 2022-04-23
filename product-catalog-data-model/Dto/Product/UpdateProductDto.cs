@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace product_catalog_data_model.Dto.Product;
 
 /// <summary>
-/// Dto pro vytvoření produktu
+/// Dto pro update produktu
 /// </summary>
-public class CreateProductDto
+public class UpdateProductDto
 {
     /// <summary>
     /// Název produktu

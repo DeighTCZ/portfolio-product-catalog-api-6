@@ -67,9 +67,9 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Update(Product item)
+    public async Task Update(long id, Product item)
     {
-        var product = await GetById(item.Id);
+        var product = await GetById(id);
 
         if (product == null)
         {
