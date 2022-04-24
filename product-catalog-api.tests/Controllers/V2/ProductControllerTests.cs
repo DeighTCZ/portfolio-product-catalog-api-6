@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +23,10 @@ public class ProductControllerTests
         var productService = new ProductService(dao);
         var mapper = new Mock<IMapper>();
         var sut = new ProductController(mapper.Object, productService);
+        var ct = new CancellationToken();
 
         // Act
-        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto());
+        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto(), ct);
 
         // Assert
         result.StatusCode.Should().Be(200);
@@ -38,9 +40,10 @@ public class ProductControllerTests
         var productService = new ProductService(dao);
         var mapper = new Mock<IMapper>();
         var sut = new ProductController(mapper.Object, productService);
+        var ct = new CancellationToken();
 
         // Act
-        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto(1, 10));
+        var result = (OkObjectResult)await sut.GetProducts(new PaginationDto(1, 10), ct);
 
         // Assert
         result.StatusCode.Should().Be(200);
@@ -54,9 +57,10 @@ public class ProductControllerTests
         var productService = new ProductService(dao);
         var mapper = new Mock<IMapper>();
         var sut = new ProductController(mapper.Object, productService);
+        var ct = new CancellationToken();
 
         // Act
-        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => sut.GetProducts(new PaginationDto(100, 10)));
+        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => sut.GetProducts(new PaginationDto(100, 10), ct));
 
         //Assert
         ex.Should().BeOfType<PageNotValidException>();
@@ -70,9 +74,10 @@ public class ProductControllerTests
         var productService = new ProductService(dao);
         var mapper = new Mock<IMapper>();
         var sut = new ProductController(mapper.Object, productService);
+        var ct = new CancellationToken();
 
         // Act
-        var result = (OkObjectResult)await sut.GetProduct(1);
+        var result = (OkObjectResult)await sut.GetProduct(1, ct);
 
         // Assert
         result.StatusCode.Should().Be(200);
@@ -86,9 +91,10 @@ public class ProductControllerTests
         var productService = new ProductService(dao);
         var mapper = new Mock<IMapper>();
         var sut = new ProductController(mapper.Object, productService);
+        var ct = new CancellationToken();
 
         // Act
-        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => sut.GetProduct(100));
+        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => sut.GetProduct(100, ct));
 
         //Assert
         ex.Should().BeOfType<ItemNotFoundException>();

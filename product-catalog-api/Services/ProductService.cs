@@ -20,9 +20,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetAllProducts()
+    public async Task<IEnumerable<Product>> GetAllProducts(CancellationToken ct)
     {
-        var products = await _productDao.GetAll();
+        var products = await _productDao.GetAll(ct);
 
         // Bussiness logic here
 
@@ -30,9 +30,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetProductsPaged(int page, int count)
+    public async Task<IEnumerable<Product>> GetProductsPaged(int page, int count, CancellationToken ct)
     {
-        var products = await _productDao.GetAllPaged(page, count);
+        var products = await _productDao.GetAllPaged(page, count, ct);
 
         // Bussiness logic here
 
@@ -40,9 +40,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<Product> GetProductById(long id)
+    public async Task<Product> GetProductById(long id, CancellationToken ct)
     {
-        var product = await _productDao.GetById(id);
+        var product = await _productDao.GetById(id, ct);
 
         // Bussiness logic here
 
@@ -50,34 +50,34 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<long> CreateProduct(Product product)
+    public async Task<long> CreateProduct(Product product, CancellationToken ct)
     {
         // Bussiness logic here
 
-        return await _productDao.Create(product);
+        return await _productDao.Create(product, ct);
     }
 
     /// <inheritdoc />
-    public async Task UpdateProduct(long id, Product product)
+    public async Task UpdateProduct(long id, Product product, CancellationToken ct)
     {
         // Bussiness logic here
 
-        await _productDao.Update(id, product);
+        await _productDao.Update(id, product, ct);
     }
 
     /// <inheritdoc />
-    public async Task UpdateProductDescription(long id, string description)
+    public async Task UpdateProductDescription(long id, string description, CancellationToken ct)
     {
         // Bussiness logic here
 
-        await _productDao.UpdateDescription(id, description);
+        await _productDao.UpdateDescription(id, description, ct);
     }
 
     /// <inheritdoc />
-    public async Task DeleteProduct(long id)
+    public async Task DeleteProduct(long id, CancellationToken ct)
     {
         // Bussiness logic here
 
-        await _productDao.Delete(id);
+        await _productDao.Delete(id, ct);
     }
 }

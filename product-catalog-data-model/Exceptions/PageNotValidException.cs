@@ -3,7 +3,7 @@
 /// <summary>
 /// vyjmka pro neplatnou stránku
 /// </summary>
-public class PageNotValidException: Exception
+public class PageNotValidException : Exception
 {
     /// <summary>
     /// ctor
@@ -22,5 +22,4 @@ public class PageNotValidException: Exception
     /// <param name="message"></param>
     /// <param name="innerException"></param>
     public PageNotValidException(string message, Exception innerException) : base(message, innerException) { }
-
 }

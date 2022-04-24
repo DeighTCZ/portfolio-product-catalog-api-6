@@ -16,12 +16,11 @@ public class JwtTokenService : ITokenService
     public Task<string> GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key =  Convert.FromBase64String(Secret);
+        var key = Convert.FromBase64String(Secret);
 
-        var claimsIdentity = new ClaimsIdentity(new[] {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        });
-        var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+        var claimsIdentity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) });
+        var signingCredentials =
+            new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -29,11 +28,10 @@ public class JwtTokenService : ITokenService
             Issuer = Issuer,
             Audience = Issuer,
             Expires = DateTime.Now.AddMinutes(15),
-            SigningCredentials = signingCredentials,
-
+            SigningCredentials = signingCredentials
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return Task.FromResult(tokenHandler.WriteToken(token)) ;
+        return Task.FromResult(tokenHandler.WriteToken(token));
     }
 }

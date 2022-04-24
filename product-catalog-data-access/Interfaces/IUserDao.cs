@@ -11,6 +11,7 @@ public interface IUserDao : IDao<User>
     /// Vrátí uživatele podle loginu
     /// </summary>
     /// <param name="login"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
-    public Task<User> GetByLogin(string login);
+    public Task<User> GetByLogin(string login, CancellationToken ct);
 }

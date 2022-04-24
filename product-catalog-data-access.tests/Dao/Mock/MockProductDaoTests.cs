@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using product_catalog_data_access.Dao.Mock;
 using product_catalog_data_model.Exceptions;
@@ -13,8 +14,8 @@ public class MockProductDaoTests
     public async void GetAll_ResultCount()
     {
         var mockProductDao = new MockProductDao();
-
-        var items = await mockProductDao.GetAll();
+        var ct = new CancellationToken();
+        var items = await mockProductDao.GetAll(ct);
 
         items.Should().HaveCount(2);
     }
@@ -23,8 +24,9 @@ public class MockProductDaoTests
     public async void GetAllPaged_ResultCount()
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var items = await mockProductDao.GetAllPaged(1, 10);
+        var items = await mockProductDao.GetAllPaged(1, 10, ct);
 
         items.Should().HaveCount(2);
     }
@@ -33,10 +35,11 @@ public class MockProductDaoTests
     public async void GetAllPaged_PageNotValidException()
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
         const int Page = 2;
 
-        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => mockProductDao.GetAllPaged(Page, 10));
+        var ex = await Assert.ThrowsAsync<PageNotValidException>(() => mockProductDao.GetAllPaged(Page, 10, ct));
 
         ex.Should().BeOfType<PageNotValidException>();
 
@@ -49,8 +52,9 @@ public class MockProductDaoTests
     public async void GetById_Succes(long id)
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var item = await mockProductDao.GetById(id);
+        var item = await mockProductDao.GetById(id, ct);
 
         item.Id.Should().Be(id);
     }
@@ -61,8 +65,9 @@ public class MockProductDaoTests
     public async void GetById_NotFoundException(long id)
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => mockProductDao.GetById(id));
+        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => mockProductDao.GetById(id, ct));
 
         ex.Should().BeOfType<ItemNotFoundException>();
 
@@ -73,8 +78,9 @@ public class MockProductDaoTests
     public async void Create_Success()
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var items = await mockProductDao.GetAll();
+        var items = await mockProductDao.GetAll(ct);
 
         var itemsCount = items.Count();
 
@@ -86,9 +92,9 @@ public class MockProductDaoTests
             ImageUri = "https://testuri.cz"
         };
 
-        await mockProductDao.Create(product);
+        await mockProductDao.Create(product, ct);
 
-        var items2 = await mockProductDao.GetAll();
+        var items2 = await mockProductDao.GetAll(ct);
 
         items2.Count().Should().Be(itemsCount + 1);
     }
@@ -99,14 +105,15 @@ public class MockProductDaoTests
     public async void Delete_Succes(long id)
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var items = await mockProductDao.GetAll();
+        var items = await mockProductDao.GetAll(ct);
 
         var itemsCount = items.Count();
 
-        await mockProductDao.Delete(id);
+        await mockProductDao.Delete(id, ct);
 
-        var items2 = await mockProductDao.GetAll();
+        var items2 = await mockProductDao.GetAll(ct);
 
         items2.Count().Should().Be(itemsCount - 1);
     }
@@ -117,14 +124,15 @@ public class MockProductDaoTests
     public async void Delete_ItemNotFoundException(long id)
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => mockProductDao.Delete(id));
+        var ex = await Assert.ThrowsAsync<ItemNotFoundException>(() => mockProductDao.Delete(id, ct));
 
         ex.Should().BeOfType<ItemNotFoundException>();
 
         Assert.Equal($"Produkt se zadaným id {id} nebyl nalezen.", ex.Message);
 
-        var items = await mockProductDao.GetAll();
+        var items = await mockProductDao.GetAll(ct);
 
         items.Count().Should().Be(2);
     }
@@ -135,16 +143,17 @@ public class MockProductDaoTests
     public async void Update_Success(long id)
     {
         var mockProductDao = new MockProductDao();
+        var ct = new CancellationToken();
 
-        var product = await mockProductDao.GetById(id);
+        var product = await mockProductDao.GetById(id, ct);
 
         var firstDescription = product.Description;
 
         product.Description = "TEST DESCRIPTION";
 
-        await mockProductDao.Update(id, product);
+        await mockProductDao.Update(id, product, ct);
 
-        var product2 = await mockProductDao.GetById(id);
+        var product2 = await mockProductDao.GetById(id, ct);
 
         product.Id.Should().Be(product2.Id);
 
