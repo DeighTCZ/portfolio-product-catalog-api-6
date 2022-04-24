@@ -17,11 +17,11 @@ public class UtilityTests
     }
 
     [Theory]
-    [InlineData(2,10,10)]
-    [InlineData(2,20,20)]
-    [InlineData(6,10,50)]
-    [InlineData(10,20,180)]
-    [InlineData(10,10,90)]
+    [InlineData(2, 10, 10)]
+    [InlineData(2, 20, 20)]
+    [InlineData(6, 10, 50)]
+    [InlineData(10, 20, 180)]
+    [InlineData(10, 10, 90)]
     public void SkipForPage_OtherPages(int page, int itemsCount, int skip)
     {
         var skipForPage = Utility.SkipForPage(page, itemsCount);

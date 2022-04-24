@@ -35,14 +35,15 @@ public class LoginController : ControllerBase
     /// Autentifikace uživatele
     /// </summary>
     /// <param name="request"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPost("authenticate")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserTokenDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    public async Task<IActionResult> AuthenticateUser(JwtLoginRequest request)
+    public async Task<IActionResult> AuthenticateUser(JwtLoginRequest request, CancellationToken ct)
     {
-        var user = await _userDao.GetByLogin(request.Username);
+        var user = await _userDao.GetByLogin(request.Username, ct);
 
         //V produkčním prostředí by byla nějaká validační funkce která by porovnala hashované heslo
         if (user.Password != request.Password)

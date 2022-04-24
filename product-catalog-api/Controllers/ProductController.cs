@@ -41,9 +41,9 @@ public class ProductController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts(CancellationToken ct)
     {
-        var items = await _productService.GetAllProducts();
+        var items = await _productService.GetAllProducts(ct);
 
         var result = _mapper.Map<IEnumerable<product_catalog_data_model.Model.Product>, IEnumerable<Product>>(items);
 
@@ -54,14 +54,15 @@ public class ProductController : ControllerBase
     /// Vrací produkt podle id
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpGet("{id:long}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> GetProduct(long id)
+    public async Task<IActionResult> GetProduct(long id, CancellationToken ct)
     {
-        var item = await _productService.GetProductById(id);
+        var item = await _productService.GetProductById(id, ct);
 
         var result = _mapper.Map<product_catalog_data_model.Model.Product>(item);
 
@@ -72,16 +73,17 @@ public class ProductController : ControllerBase
     /// Vytváří produkt
     /// </summary>
     /// <param name="product"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> Create([FromBody] Product product)
+    public async Task<IActionResult> Create([FromBody] Product product, CancellationToken ct)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        var createdId = await _productService.CreateProduct(item);
+        var createdId = await _productService.CreateProduct(item, ct);
 
         return Created($"/{createdId}", product);
     }
@@ -91,17 +93,18 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <param name="product"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPut("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateProductDto product)
+    public async Task<IActionResult> Update(long id, [FromBody] UpdateProductDto product, CancellationToken ct)
     {
         var item = _mapper.Map<product_catalog_data_model.Model.Product>(product);
 
-        await _productService.UpdateProduct(id, item);
+        await _productService.UpdateProduct(id, item, ct);
 
         return NoContent();
     }
@@ -111,15 +114,17 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <param name="dto"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPatch("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> UpdateDescription(long id, [FromBody] UpdateProductDescriptionDto dto)
+    public async Task<IActionResult> UpdateDescription(long id, [FromBody] UpdateProductDescriptionDto dto,
+        CancellationToken ct)
     {
-        await _productService.UpdateProductDescription(id, dto.Description);
+        await _productService.UpdateProductDescription(id, dto.Description, ct);
 
         return NoContent();
     }
@@ -128,14 +133,15 @@ public class ProductController : ControllerBase
     /// Maže produkt
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResult))]
     [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete(long id, CancellationToken ct)
     {
-        await _productService.DeleteProduct(id);
+        await _productService.DeleteProduct(id, ct);
 
         return NoContent();
     }

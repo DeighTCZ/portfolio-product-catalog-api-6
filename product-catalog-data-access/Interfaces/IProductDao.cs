@@ -12,6 +12,7 @@ public interface IProductDao : IDao<Product>
     /// </summary>
     /// <param name="id"></param>
     /// <param name="description"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
-    public Task UpdateDescription(long id, string description);
+    public Task UpdateDescription(long id, string description, CancellationToken ct);
 }

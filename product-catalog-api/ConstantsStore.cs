@@ -21,6 +21,7 @@ public static class ConstantsStore
         /// <summary>
         /// Tohle by tady nemělo být. Mělo by to být součástí konfigurace a ne v kódu na gitu.
         /// </summary>
-        public const string TokenSecret = "OFRC1j9aaR2BvADxNWlG2pmuD392UfQBZZLM1fuzDEzDlEpSsn+btrpJKd3FfY855OMA9oK4Mc8y48eYUrVUSw==";
+        public const string TokenSecret =
+            "OFRC1j9aaR2BvADxNWlG2pmuD392UfQBZZLM1fuzDEzDlEpSsn+btrpJKd3FfY855OMA9oK4Mc8y48eYUrVUSw==";
     }
 }

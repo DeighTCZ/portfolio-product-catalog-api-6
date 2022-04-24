@@ -21,13 +21,13 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetAll()
+    public async Task<IEnumerable<Product>> GetAll(CancellationToken ct)
     {
         return await Task.FromResult(_products);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count)
+    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count, CancellationToken ct)
     {
         var productsCount = _products.Count;
         var skip = Utility.SkipForPage(page, count);
@@ -40,9 +40,9 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task<Product> GetById(long id)
+    public async Task<Product> GetById(long id, CancellationToken ct)
     {
-        var products = await GetAll();
+        var products = await GetAll(ct);
 
         var product = products.FirstOrDefault(x => x.Id == id);
 
@@ -55,7 +55,7 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task<long> Create(Product item)
+    public async Task<long> Create(Product item, CancellationToken ct)
     {
         //hack tady nemám identity
         var lastId = _products.Last().Id;
@@ -67,9 +67,9 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Update(long id, Product item)
+    public async Task Update(long id, Product item, CancellationToken ct)
     {
-        var product = await GetById(id);
+        var product = await GetById(id, ct);
 
         if (product == null)
         {
@@ -83,9 +83,9 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task UpdateDescription(long id, string description)
+    public async Task UpdateDescription(long id, string description, CancellationToken ct)
     {
-        var product = await GetById(id);
+        var product = await GetById(id, ct);
 
         if (product == null)
         {
@@ -96,9 +96,9 @@ public class MockProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task Delete(long id)
+    public async Task Delete(long id, CancellationToken ct)
     {
-        var product = await GetById(id);
+        var product = await GetById(id, ct);
 
         if (product == null)
         {

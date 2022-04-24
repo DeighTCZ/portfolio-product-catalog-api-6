@@ -19,22 +19,22 @@ builder.Services.AddControllers(options =>
 
 // Configure jwt auth for api users
 builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = ConstantsStore.JwtConstants.TokenIssuer,
-            ValidAudience = ConstantsStore.JwtConstants.TokenIssuer,
-            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(ConstantsStore.JwtConstants.TokenSecret))
-        };
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = ConstantsStore.JwtConstants.TokenIssuer,
+        ValidAudience = ConstantsStore.JwtConstants.TokenIssuer,
+        IssuerSigningKey =
+            new SymmetricSecurityKey(Convert.FromBase64String(ConstantsStore.JwtConstants.TokenSecret))
+    };
+});
 
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ITokenService, JwtTokenService>();
@@ -76,15 +76,10 @@ builder.Services.AddSwaggerGen(config =>
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
                 Scheme = "oauth2",
                 Name = "Bearer",
-                In = ParameterLocation.Header,
-
+                In = ParameterLocation.Header
             },
             new List<string>()
         }
@@ -104,8 +99,7 @@ if (app.Environment.IsDevelopment())
     {
         foreach (var description in provider.ApiVersionDescriptions)
         {
-            options.SwaggerEndpoint(
-                $"/swagger/{description.GroupName}/swagger.json",
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                 description.GroupName.ToUpperInvariant());
         }
     });

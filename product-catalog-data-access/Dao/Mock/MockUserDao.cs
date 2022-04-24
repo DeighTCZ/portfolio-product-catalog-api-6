@@ -9,43 +9,43 @@ namespace product_catalog_data_access.Dao.Mock;
 public class MockUserDao : IUserDao
 {
     /// <inheritdoc />
-    public Task<IEnumerable<User>> GetAll()
+    public Task<IEnumerable<User>> GetAll(CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<User>> GetAllPaged(int page, int count)
+    public Task<IEnumerable<User>> GetAllPaged(int page, int count, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<User> GetById(long id)
+    public Task<User> GetById(long id, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<long> Create(User item)
+    public Task<long> Create(User item, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task Update(long id, User item)
+    public Task Update(long id, User item, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task Delete(long id)
+    public Task Delete(long id, CancellationToken ct)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<User> GetByLogin(string login)
+    public Task<User> GetByLogin(string login, CancellationToken ct)
     {
         throw new NotImplementedException();
     }

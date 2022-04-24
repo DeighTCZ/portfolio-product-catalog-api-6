@@ -28,7 +28,7 @@ public class CreateProductDto
     /// </summary>
     [JsonProperty("imageUrl")]
     [Required(ErrorMessage = "Odkaz na obrázek je povinný.")]
-    [MaxLength(50,  ErrorMessage = "Odkaz na obrázek produktu může mít maximálně {0} znaků.")]
+    [MaxLength(50, ErrorMessage = "Odkaz na obrázek produktu může mít maximálně {0} znaků.")]
     public string ImageUri { get; init; }
 
     /// <summary>

@@ -28,50 +28,50 @@ public class EfProductDao : IProductDao
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetAll()
+    public async Task<IEnumerable<Product>> GetAll(CancellationToken ct)
     {
-        var data = await _context.Products.ToListAsync();
+        var data = await _context.Products.ToListAsync(ct);
         return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(data);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count)
+    public async Task<IEnumerable<Product>> GetAllPaged(int page, int count, CancellationToken ct)
     {
-        var productsCount = await _context.Products.CountAsync();
+        var productsCount = await _context.Products.CountAsync(ct);
         var skip = Utility.SkipForPage(page, count);
         if (skip > productsCount)
         {
             throw new PageNotValidException($"Zadaná stránka {page} není validní.");
         }
 
-        var data = await _context.Products.Skip(skip).Take(count).ToListAsync();
+        var data = await _context.Products.Skip(skip).Take(count).ToListAsync(ct);
         return _mapper.Map<IEnumerable<EfModels.Product>, IEnumerable<Product>>(data);
     }
 
     /// <inheritdoc />
-    public async Task<Product> GetById(long id)
+    public async Task<Product> GetById(long id, CancellationToken ct)
     {
-        var product = await GetByIdInternal(id);
+        var product = await GetByIdInternal(id, ct);
 
         return _mapper.Map<Product>(product);
     }
 
     /// <inheritdoc />
-    public async Task<long> Create(Product item)
+    public async Task<long> Create(Product item, CancellationToken ct)
     {
         var product = _mapper.Map<EfModels.Product>(item);
 
         _context.Add(product);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         return product.Id;
     }
 
     /// <inheritdoc />
-    public async Task Update(long id, Product item)
+    public async Task Update(long id, Product item, CancellationToken ct)
     {
-        var product = await GetByIdInternal(id);
+        var product = await GetByIdInternal(id, ct);
 
         product.ProductName = item.Name;
         product.Description = item.Description;
@@ -80,34 +80,34 @@ public class EfProductDao : IProductDao
 
         _context.Update(product);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
     }
 
     /// <inheritdoc />
-    public async Task UpdateDescription(long id, string description)
+    public async Task UpdateDescription(long id, string description, CancellationToken ct)
     {
-        var product = await GetByIdInternal(id);
+        var product = await GetByIdInternal(id, ct);
 
         product.Description = description;
 
         _context.Update(product);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
     }
 
     /// <inheritdoc />
-    public async Task Delete(long id)
+    public async Task Delete(long id, CancellationToken ct)
     {
-        var product = await GetByIdInternal(id);
+        var product = await GetByIdInternal(id, ct);
 
         _context.Remove(product);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
     }
 
-    private async Task<EfModels.Product> GetByIdInternal(long id)
+    private async Task<EfModels.Product> GetByIdInternal(long id, CancellationToken ct)
     {
-        var item = await _context.Products.FindAsync(id);
+        var item = await _context.Products.FindAsync(new object[] { id }, ct);
 
         if (item == null)
         {
